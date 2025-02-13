@@ -144,7 +144,7 @@ export default function SignInForm() {
               <Separator className="flex-1" />
             </div>
             <div className="text-center text-sm">
-              <span className="text-muted-foreground">New to True Feedback? </span>
+              <span className="text-muted-foreground">New to ProjectZen ? </span>
               <Link
                 href="/sign-up"
                 className="text-primary hover:text-primary/80 font-semibold transition-colors inline-flex items-center gap-1 hover:gap-2"
