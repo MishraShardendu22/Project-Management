@@ -1,0 +1,63 @@
+import { sendResponse } from "@/util/Response";
+import { getSession } from "next-auth/react";
+import { projectsTable } from "@/db/schema";
+import { NextRequest } from "next/server";
+import { db } from "@/db";
+
+export async function GET(){
+    try{
+        const projects = await db.select().from(projectsTable);
+        return sendResponse(200, "Successfully Fetched Data",projects);
+    }catch(error){
+        console.error(error);
+        return sendResponse(500, "Internal Server Error");
+    }
+}
+
+
+export async function POST(req: NextRequest){
+    try{
+        const session = await getSession();
+        const user_Id = Number(session?.user?.id);
+        const { name, description, dueDate } = await req.json(); 
+        const project = {
+            name: name,
+            description: description,
+            dueDate: dueDate,
+            userId: user_Id,
+        }
+
+        if(!user_Id || !name || !description || !dueDate){
+            return sendResponse(400, "Bad Request");
+        }
+
+        await db.insert(projectsTable).values(project);
+        return sendResponse(200, "Successfully Created Project", project);
+    }catch(error){
+        console.error(error);
+        return sendResponse(500, "Internal Server Error");
+    }
+}
+
+
+// const projectsTable = pgTable("projects", {
+//     dueDate: date("dueDate"),
+//     userId: integer().notNull(),
+//     description: varchar({ length: 255 }),
+//     name: varchar({ length: 255 }).notNull(),
+//     id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//     createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
+//     updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
+// });
+
+// const usersTable = pgTable("users", {
+//     username: varchar({ length: 255 }).notNull(),
+//     passwordHash: varchar({ length: 255 }).notNull(),
+//     email: varchar({ length: 255 }).notNull().unique(),
+//     id: integer().primaryKey().generatedAlwaysAsIdentity(),
+//     verifyCode: varchar('verify_code', { length: 6 }).notNull(),
+//     verifyCodeExpiry: timestamp('verify_code_expiry').notNull(),
+//     isVerified: boolean('is_verified').default(false).notNull(),
+//     createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
+//     updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
+// });
