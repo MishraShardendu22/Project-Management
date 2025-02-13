@@ -1,0 +1,12 @@
+# MongoDB URI
+DATABASE_URL=""
+
+# AI Integration
+GEMINI_API=""
+
+# Mail Configuration
+MAIL_PASS=""
+MAIL_ID=""
+
+# JWT Secret
+SECRET=""
