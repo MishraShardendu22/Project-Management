@@ -1,8 +1,9 @@
-import dbConnect from '@/database/database.connect';
-import UserModel from '@/model/temp.user.model';
 import { usernameValidation } from '@/schema_zod/signUp.schema';
 import { sendResponse } from '@/util/Response';
 import { NextRequest } from 'next/server';
+import { usersTable } from '@/db/schema';
+import { eq } from 'drizzle-orm';
+import { db } from '@/db';
 import { z } from 'zod';
 
 const UsernameQuerySchema = z.object({
@@ -10,8 +11,6 @@ const UsernameQuerySchema = z.object({
 });
 
 export async function GET(request: NextRequest) {
-  await dbConnect();
-
   try {
     const { searchParams } = new URL(request.url);
 
@@ -31,10 +30,9 @@ export async function GET(request: NextRequest) {
     }
 
     const { username } = result.data;
-    const existingVerifiedUser = await UserModel.findOne({
-      username,
-      isVerified: true,
-    });
+    const existingVerifiedUser = await db.select().from(usersTable).where(
+      eq(usersTable.username, username)
+    )
 
     if (existingVerifiedUser) {
       return sendResponse(200, 'Username already taken');

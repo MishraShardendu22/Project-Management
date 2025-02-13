@@ -8,45 +8,48 @@ import {
 } from "drizzle-orm/pg-core";
 
 const usersTable = pgTable("users", {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     username: varchar({ length: 255 }).notNull(),
-    email: varchar({ length: 255 }).notNull().unique(),
     passwordHash: varchar({ length: 255 }).notNull(),
+    email: varchar({ length: 255 }).notNull().unique(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
+    verifyCode: varchar('verify_code', { length: 6 }).notNull(),
+    verifyCodeExpiry: timestamp('verify_code_expiry').notNull(),
+    isVerified: boolean('is_verified').default(false).notNull(),
     createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
 });
 
 const projectsTable = pgTable("projects", {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    userId: integer().notNull(),
-    name: varchar({ length: 255 }).notNull(),
-    description: varchar({ length: 255 }),
     dueDate: date("dueDate"),
+    userId: integer().notNull(),
+    description: varchar({ length: 255 }),
+    name: varchar({ length: 255 }).notNull(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
 });
 
 const tasksTable = pgTable("tasks", {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
-    projectId: integer().notNull(),
-    title: varchar({ length: 255 }).notNull(),
-    description: varchar({ length: 255 }),
-    priority: integer().notNull(),
     dueDate: date("dueDate"),
+    priority: integer().notNull(),
+    projectId: integer().notNull(),
+    description: varchar({ length: 255 }),
     isCompleted: boolean().default(false),
+    title: varchar({ length: 255 }).notNull(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     createdAt: timestamp("createdAt", { withTimezone: true }).defaultNow(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }).defaultNow(),
 });
 
 const categoriesTable = pgTable("categories", {
-    id: integer().primaryKey().generatedAlwaysAsIdentity(),
     userId: integer().notNull(),
     name: varchar({ length: 255 }).notNull(),
+    id: integer().primaryKey().generatedAlwaysAsIdentity(),
 });
 
 export {
+    tasksTable,
     usersTable,
     projectsTable,
-    tasksTable,
     categoriesTable
 };

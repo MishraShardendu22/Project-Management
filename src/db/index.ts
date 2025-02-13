@@ -10,10 +10,7 @@ const sql = neon(process.env.DATABASE_URL as string);
 
 // { logger: true } enables query logging, which helps in debugging by logging SQL queries being executed.
 // If enabled, Drizzle will print all queries and operations happening on the database.
-
-// const db = drizzle(sql,{ logger: true });
-
-const db = drizzle({ client: sql });
+const db = drizzle(sql,{ logger: true });
 
 
 export {
