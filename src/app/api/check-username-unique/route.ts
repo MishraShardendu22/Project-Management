@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
     const existingVerifiedUser = await db.select().from(usersTable).where(
       eq(usersTable.username, username)
     )
-
-    if (existingVerifiedUser) {
+    
+    if (existingVerifiedUser.length > 0) {
       return sendResponse(200, 'Username already taken');
     }
 
