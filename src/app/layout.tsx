@@ -8,41 +8,39 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 const geistSans = localFont({
-  src: '../public/fonts/Geist.woff2', // Adjust path as needed
+  src: '/fonts/Geist.woff2', // Use absolute path for public assets
   variable: '--font-geist-sans',
+  display: 'swap',
 });
 
 const geistMono = Geist_Mono({
- variable: '--font-geist-mono',
- subsets: ['latin'],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
- title: {
-  template: '%s | ProjectZen',
-  default: 'ProjectZen - Made By Shardendu Mishra',
- },
- description:
-  'ProjectZen | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15',
+  title: {
+    template: '%s | ProjectZen',
+    default: 'ProjectZen - Made By Shardendu Mishra',
+  },
+  description:
+    'ProjectZen | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15',
 };
 
 export default function RootLayout({
- children,
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
- return (
-  <html lang="en">
-   <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-    {/* <QueryClientProvider client={queryClient}> */}
-     {/* <ThemeProvider> */}
-    <AuthProvider>
-      <Navbar />
-      {children}
-      <Footer />
-    </AuthProvider>
-      {/* </ThemeProvider> */}
-    {/* </QueryClientProvider> */}
-    <Toaster position="top-right" reverseOrder={false} />
-   </body>
-  </html>
- );
+  return (
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </AuthProvider>
+        <Toaster position="top-right" reverseOrder={false} />
+      </body>
+    </html>
+  );
 }
