@@ -22,6 +22,7 @@ const usersTable = pgTable("users", {
 const projectsTable = pgTable("projects", {
     dueDate: date("dueDate"),
     userId: integer().notNull(),
+    categoryId: integer(),
     description: varchar({ length: 255 }),
     name: varchar({ length: 255 }).notNull(),
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
