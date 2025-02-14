@@ -1,129 +1,112 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import emailjs from "@emailjs/browser";
 
-const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [status, setStatus] = useState<string | null>(null);
+const Contact = () => {
+  const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevents page refresh
-    setStatus("Sending...");
+    e.preventDefault();
+    setLoading(true);
+
+    // Validate environment variables
+    if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
+      console.error("Missing EmailJS environment variables.");
+      toast.error("Service is not properly configured. Please try again later.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: form.name,
+          to_name: "Shardendu Mishra",
+          from_email: form.email,
+          to_email: "shardendumishra01@gmail.com",
+          message: form.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      );
 
-      const data = await res.json(); // Ensure response is properly handled
-
-      if (res.ok) {
-        setStatus(data.message || "Message sent successfully!");
-        setFormData({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-      } else {
-        setStatus(data.error || "Failed to send message. Please try again.");
-      }
+      toast.success("Thank you for your message 😃");
+      setForm({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error("Error sending message:", error);
-      setStatus("An error occurred. Please try again.");
+      console.error("EmailJS Error:", error);
+      toast.error("I didn't receive your message 😢");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
-      <main className="flex-grow container mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold text-center mb-8">Contact Us</h2>
-        <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow">
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="name">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Your Name"
-              required
-            />
-          </div>
+    <section className="c-space my-20 mb-20" id="contact">
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Your Email"
-              required
-            />
-          </div>
+      <div className="relative min-h-screen flex items-center justify-center flex-col">
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="subject">
-              Subject
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Subject"
-              required
-            />
-          </div>
+        <div className="contact-container">
+          <h3 className="head-text my-10">Let`s talk</h3>
+          <p className="text-lg text-white-600 mt-3">
+            Whether you’re looking to build a new website, improve your existing platform, or bring a unique project to life, I’m here to help.
+          </p>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 font-medium mb-2" htmlFor="message">
-              Message
+          <form onSubmit={handleSubmit} className="mt-12 flex flex-col space-y-7">
+            <label className="space-y-3">
+              <span className="field-label">Full Name</span>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                required
+                className="field-input"
+                placeholder="Ex: Shardendu Mishra"
+              />
             </label>
-            <textarea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Your Message"
-              rows={5}
-              required
-            ></textarea>
-          </div>
 
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700 transition"
-          >
-            Send Message
-          </button>
-          {status && <p className="mt-4 text-center text-gray-700">{status}</p>}
-        </form>
-      </main>
-    </div>
+            <label className="space-y-3">
+              <span className="field-label">Email address</span>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                className="field-input"
+                placeholder="Ex: shardendumishra01@gmail.com"
+              />
+            </label>
+
+            <label className="space-y-3">
+              <span className="field-label">Your message</span>
+              <textarea
+                name="message"
+                value={form.message}
+                onChange={handleChange}
+                required
+                rows={5}
+                className="field-input"
+                placeholder="Write your thoughts here..."
+              />
+            </label>
+
+            <button className="field-btn" type="submit" disabled={loading}>
+              {loading ? "Sending..." : "Send Message"}
+              <img src="/assets/arrow-up.png" alt="arrow-up" className="field-btn_arrow" />
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   );
 };
 
-export default ContactPage;
+export default Contact;
