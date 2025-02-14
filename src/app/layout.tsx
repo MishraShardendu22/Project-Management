@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ThemeProvider from "@/components/store/themeStore";
 import AuthProvider from "@/components/authProvider";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -21,8 +22,10 @@ export const metadata: Metadata = {
     default: "ProjectZen - Made By Shardendu Mishra",
   },
   description:
-    "ProjectZen | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15",
+  "ProjectZen | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15",
 };
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
   children,
@@ -30,11 +33,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AuthProvider>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <ThemeProvider>
+              {children}
+            </ThemeProvider>
+          </AuthProvider>
+        </QueryClientProvider>
         <Toaster position="top-right" reverseOrder={false} />
       </body>
     </html>
