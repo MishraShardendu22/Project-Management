@@ -32,7 +32,7 @@ export default function Dashboard() {
       alert("Category name is required.");
       return;
     }
-    createCategory({ name: newCategory, userId: 1 });
+    createCategory({ name: newCategory });
     setNewCategory("");
   };
 

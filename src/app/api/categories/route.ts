@@ -2,6 +2,8 @@ import { sendResponse } from "@/util/Response";
 import { categoriesTable } from "@/db/schema";
 import { NextRequest } from "next/server";
 import { db } from "@/db";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/options";
 
 export async function GET() {
     try {
@@ -15,12 +17,15 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
-        const { userId, name } = await req.json();
+        const session = await getServerSession(authOptions)
+        const userId = Number(session?.user?.id);
+
+        const { name } = await req.json();
         if (!userId || !name) {
             return sendResponse(400, "Invalid request");
         }
 
-        const [category] = await db.insert(categoriesTable).values({ userId, name }).returning();
+        const [category] = await db.insert(categoriesTable).values([{ userId, name }]).returning();
         return sendResponse(201, "Category created successfully", category);
     } catch (error) {
         console.error(error);
