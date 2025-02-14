@@ -1,8 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useForm } from "react-hook-form";
+import Link from "next/link";
+import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { LogIn, Mail, Key, ArrowRight, Loader2 } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import {
   Form,
   FormField,
@@ -11,14 +19,6 @@ import {
   FormMessage,
   FormControl,
 } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { LogIn, Mail, Key, ArrowRight, Loader2 } from "lucide-react";
-import { useState } from "react";
 
 export default function SignInForm() {
   const router = useRouter();

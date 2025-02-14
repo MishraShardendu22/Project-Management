@@ -1,13 +1,13 @@
 "use client"
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useRouter } from 'next/navigation';
-import { Loader2, KeyRound, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import React, { useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useParams, useRouter } from 'next/navigation';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { Loader2, KeyRound, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
 
 const Page = () => {
   const router = useRouter();

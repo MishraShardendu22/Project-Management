@@ -1,15 +1,17 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { useRouter } from 'next/navigation';
+import React from 'react';
 import axios from 'axios';
-import { zodResolver } from '@hookform/resolvers/zod';
-
+import Link from 'next/link';
+import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signUpSchema } from '@/schema_zod/signUp.schema';
 import {
   Form,
   FormField,
@@ -17,9 +19,12 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { 
+  Card, 
+  CardHeader, 
+  CardContent, 
+  CardFooter 
+} from '@/components/ui/card';
 import { 
   Loader2, 
   UserPlus, 
@@ -30,8 +35,6 @@ import {
   User,
   ArrowRight
 } from 'lucide-react';
-
-import { signUpSchema } from '@/schema_zod/signUp.schema';
 
 export default function SignUpForm() {
   const [username, setUsername] = useState('');
