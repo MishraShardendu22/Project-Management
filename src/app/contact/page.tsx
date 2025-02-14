@@ -4,7 +4,7 @@ import emailjs from "@emailjs/browser";
 import Loading from "@/components/Loading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { MessageSquare, User, Mail } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -57,7 +57,6 @@ const Contact = () => {
 
   return (
     <section className="relative min-h-screen w-full py-20" id="contact">
-      <Toaster />
       
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />

@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button } from '@/components/ui/button';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import {
   Card,
   CardContent,
@@ -119,7 +119,6 @@ export default function ProjectDetail() {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <Toaster />
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-4xl font-bold tracking-tight">Project Tasks</h1>
         <Button onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}>

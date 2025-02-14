@@ -2,7 +2,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -130,7 +130,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen p-6 space-y-8">
-      <Toaster />
       
       {/* Header */}
       <div className="space-y-2">
