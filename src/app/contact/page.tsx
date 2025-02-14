@@ -1,7 +1,13 @@
-"use client";
+"use client"
 import { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import emailjs from "@emailjs/browser";
+import Loading from "@/components/Loading";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import toast, { Toaster } from "react-hot-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { MessageSquare, User, Mail } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
@@ -19,7 +25,6 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Validate environment variables
     if (!serviceID || !templateID || !publicKey) {
       toast.error("Service is not properly configured. Please try again later.");
       setLoading(false);
@@ -51,61 +56,95 @@ const Contact = () => {
   };
 
   return (
-    <section className="c-space my-20 mb-20" id="contact">
-      {/* Comment: Added Toaster for react-hot-toast notifications */}
+    <section className="relative min-h-screen w-full py-20" id="contact">
       <Toaster />
-      <div className="relative min-h-screen flex items-center justify-center flex-col">
-        <div className="contact-container">
-          <h3 className="head-text my-10">Let’s talk</h3>
-          <p className="text-lg text-white-600 mt-3">
-            Whether you’re looking to build a new website, improve your existing platform, or bring a unique project to life, I’m here to help.
+      
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-grid-primary/5 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
+      
+      <div className="container px-4 mx-auto relative z-10">
+        <div className="max-w-2xl mx-auto text-center mb-12">
+          <MessageSquare className="w-12 h-12 mx-auto mb-4 text-primary" />
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+            Let&lsquo;s talk
+          </h1>
+          <p className="text-lg text-muted-foreground">
+            Whether you&lsquo;re looking to build a new website, improve your existing platform, or bring a unique project to life, I&lsquo;m here to help.
           </p>
-
-          <form onSubmit={handleSubmit} className="mt-12 flex flex-col space-y-7">
-            <label className="space-y-3">
-              <span className="field-label">Full Name</span>
-              <input
-                type="text"
-                name="name"
-                value={form.name}
-                onChange={handleChange}
-                required
-                className="field-input"
-                placeholder="Ex: Shardendu Mishra"
-              />
-            </label>
-
-            <label className="space-y-3">
-              <span className="field-label">Email address</span>
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                required
-                className="field-input"
-                placeholder="Ex: shardendumishra01@gmail.com"
-              />
-            </label>
-
-            <label className="space-y-3">
-              <span className="field-label">Your message</span>
-              <textarea
-                name="message"
-                value={form.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="field-input"
-                placeholder="Write your thoughts here..."
-              />
-            </label>
-
-            <button className="field-btn" type="submit" disabled={loading}>
-              {loading ? "Sending..." : "Send Message"}
-            </button>
-          </form>
         </div>
+
+        <Card className="max-w-xl mx-auto border-none bg-card/50 backdrop-blur-sm shadow-lg">
+          <CardHeader>
+            <CardTitle>Send me a message</CardTitle>
+            <CardDescription>Fill out the form below and I&#39;ll get back to you as soon as possible.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Full Name
+                </label>
+                <div className="relative">
+                  <Input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleChange}
+                    required
+                    className="pl-10"
+                    placeholder="Ex: Shardendu Mishra"
+                  />
+                  <User className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Email address
+                </label>
+                <div className="relative">
+                  <Input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                    className="pl-10"
+                    placeholder="Ex: shardendumishra01@gmail.com"
+                  />
+                  <Mail className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                  Your message
+                </label>
+                <Textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                  rows={5}
+                  placeholder="Write your thoughts here..."
+                  className="resize-none"
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="w-full"
+              >
+                {loading ? (
+                  <Loading /> 
+                ) : (
+                  "Send Message"
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

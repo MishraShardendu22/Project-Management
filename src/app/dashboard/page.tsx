@@ -5,6 +5,20 @@ import Link from 'next/link';
 import toast, { Toaster } from 'react-hot-toast';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { 
+  Folders, 
+  Plus, 
+  Pencil, 
+  Trash2, 
+  Calendar, 
+  Library, 
+  Loader2,
+  Save,
+  X,
+  Eye
+} from 'lucide-react';
 import {
   useFetchProjects,
   useCreateProject,
@@ -18,14 +32,12 @@ import {
 } from '@/util/API';
 
 export default function Dashboard() {
-  const { data: categories, isFetching: categoriesLoading } =
-    useFetchCategories();
+  const { data: categories, isFetching: categoriesLoading } = useFetchCategories();
   const [editingCategory, setEditingCategory] = useState<number | null>(null);
   const { data: projects, isFetching: projectsLoading } = useFetchProjects();
   const [editCategoryName, setEditCategoryName] = useState('');
   const { mutate: createProject } = useCreateProject();
 
-  // Store categoryId as a number (or null when not selected)
   const [newProject, setNewProject] = useState<{
     name: string;
     description: string;
@@ -44,7 +56,6 @@ export default function Dashboard() {
   const { mutate: deleteProject } = useDeleteProject();
   const [newCategory, setNewCategory] = useState('');
 
-  // Use react-hot-toast instead of alerts for notifications
   const handleCategoryCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (newCategory.trim() === '') {
@@ -87,7 +98,6 @@ export default function Dashboard() {
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('The categoryId is:', newProject.categoryId);
     if (!newProject.name) {
       toast.error('Project name is required.');
       return;
@@ -119,167 +129,219 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen p-6 space-y-8">
       <Toaster />
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-
-      <div className="mb-8 border p-4 rounded">
-        <h2 className="text-xl font-bold mb-2">Manage Categories</h2>
-        <form onSubmit={handleCategoryCreate} className="flex gap-2 mb-4">
-          <Input
-            placeholder="New Category Name"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
-          <Button type="submit">Add Category</Button>
-        </form>
-        {categoriesLoading ? (
-          <p>Loading categories...</p>
-        ) : (
-          <ul className="space-y-2">
-            {categories?.map((cat: any) => (
-              <li key={cat.id} className="flex items-center gap-2">
-                {editingCategory === cat.id ? (
-                  <>
-                    <Input
-                      value={editCategoryName}
-                      onChange={(e) => setEditCategoryName(e.target.value)}
-                    />
-                    <Button onClick={() => handleCategoryUpdate(cat)}>
-                      Save
-                    </Button>
-                    <Button
-                      onClick={() => setEditingCategory(null)}
-                      variant="destructive"
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <span>{cat.name}</span>
-                    <Button
-                      onClick={() => {
-                        setEditingCategory(cat.id);
-                        setEditCategoryName(cat.name);
-                      }}
-                      variant="outline"
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => handleCategoryDelete(cat.id)}
-                      variant="destructive"
-                    >
-                      Delete
-                    </Button>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
+      
+      {/* Header */}
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <p className="text-muted-foreground">Manage your projects and categories.</p>
       </div>
 
-      <div className="mb-6 border p-4 rounded">
-        <h2 className="text-xl font-semibold mb-2">Create New Project</h2>
-        <form onSubmit={handleCreateProject} className="flex flex-col gap-2">
-          <Input
-            placeholder="Project Name"
-            value={newProject.name}
-            onChange={(e) =>
-              setNewProject({ ...newProject, name: e.target.value })
-            }
-          />
-          <Input
-            placeholder="Description"
-            value={newProject.description}
-            onChange={(e) =>
-              setNewProject({ ...newProject, description: e.target.value })
-            }
-          />
-          <Input
-            type="date"
-            value={newProject.dueDate}
-            onChange={(e) =>
-              setNewProject({ ...newProject, dueDate: e.target.value })
-            }
-          />
-          <select
-            className="border p-2"
-            value={
-              newProject.categoryId !== null
-                ? newProject.categoryId.toString()
-                : ''
-            }
-            onChange={(e) =>
-              setNewProject({
-                ...newProject,
-                categoryId: e.target.value ? parseInt(e.target.value) : null,
-              })
-            }
-          >
-            <option value="">Select Category (optional)</option>
-            {categories &&
-              categories.map((cat: any) => (
-                <option key={cat.id} value={cat.id.toString()}>
-                  {cat.name}
-                </option>
+      {/* Categories Management */}
+      <Card className="border-none bg-card/50 backdrop-blur-sm shadow-lg">
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <CardTitle className="text-xl font-semibold">
+            <Folders className="w-5 h-5 inline-block mr-2" />
+            Manage Categories
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleCategoryCreate} className="flex gap-2 mb-6">
+            <Input
+              placeholder="New Category Name"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+              className="max-w-sm"
+            />
+            <Button type="submit">
+              <Plus className="w-4 h-4 mr-2" />
+              Add Category
+            </Button>
+          </form>
+          
+          {categoriesLoading ? (
+            <div className="flex items-center justify-center py-4">
+              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {categories?.map((cat: any) => (
+                <div key={cat.id} className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50">
+                  {editingCategory === cat.id ? (
+                    <>
+                      <Input
+                        value={editCategoryName}
+                        onChange={(e) => setEditCategoryName(e.target.value)}
+                        className="max-w-sm"
+                      />
+                      <Button size="sm" onClick={() => handleCategoryUpdate(cat)}>
+                        <Save className="w-4 h-4 mr-2" />
+                        Save
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => setEditingCategory(null)}>
+                        <X className="w-4 h-4 mr-2" />
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <span className="flex-1 font-medium">{cat.name}</span>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setEditingCategory(cat.id);
+                          setEditCategoryName(cat.name);
+                        }}
+                      >
+                        <Pencil className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleCategoryDelete(cat.id)}
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </Button>
+                    </>
+                  )}
+                </div>
               ))}
-          </select>
-          <Button type="submit">Create Project</Button>
-        </form>
-      </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
+      {/* Create Project */}
+      <Card className="border-none bg-card/50 backdrop-blur-sm shadow-lg">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">
+            <Plus className="w-5 h-5 inline-block mr-2" />
+            Create New Project
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleCreateProject} className="space-y-4 max-w-2xl">
+            <div className="space-y-2">
+              <Input
+                placeholder="Project Name"
+                value={newProject.name}
+                onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Input
+                placeholder="Description"
+                value={newProject.description}
+                onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Input
+                  type="date"
+                  value={newProject.dueDate}
+                  onChange={(e) => setNewProject({ ...newProject, dueDate: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Select
+                  value={newProject.categoryId !== null ? newProject.categoryId.toString() : undefined}
+                  onValueChange={(value) => 
+                    setNewProject({
+                      ...newProject,
+                      categoryId: value === 'none' ? null : parseInt(value)
+                    })
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Category (optional)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="none">No Category</SelectItem>
+                    {categories?.map((cat: any) => (
+                      <SelectItem key={cat.id} value={cat.id.toString()}>
+                        {cat.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <Button type="submit" className="w-full">
+              <Plus className="w-4 h-4 mr-2" />
+              Create Project
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Projects List */}
       {projectsLoading || categoriesLoading ? (
-        <p>Loading projects...</p>
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
       ) : (
-        Object.keys(groupedProjects).map((catKey) => {
-          const category =
-            catKey === 'uncategorized'
+        <div className="space-y-8">
+          {Object.keys(groupedProjects).map((catKey) => {
+            const category = catKey === 'uncategorized'
               ? { name: 'Uncategorized' }
               : categories.find((cat: any) => cat.id.toString() === catKey) || {
                   name: 'Unknown Category',
                 };
-          return (
-            <div key={catKey} className="mb-8">
-              <h2 className="text-xl font-bold mb-2">{category.name}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {groupedProjects[catKey].map((project: any) => (
-                  <div
-                    key={project.id}
-                    className="border p-4 rounded shadow hover:shadow-lg transition"
-                  >
-                    <h3 className="text-lg font-semibold">
-                      {project.name}
-                    </h3>
-                    <p>{project.description}</p>
-                    <p className="text-sm text-gray-500">
-                      Due: {project.dueDate}
-                    </p>
-                    <Link href={`/dashboard/projects/${project.id}`}>
-                      <Button className="mt-2">View Tasks</Button>
-                    </Link>
-                    <Button
-                      onClick={() => {
-                        if (
-                          window.confirm(
-                            'Are you sure you want to delete this project?'
-                          )
-                        ) {
-                          handleDeleteProject(project.id.toString());
-                        }
-                      }}
-                      variant="destructive"
-                    >
-                      Delete
-                    </Button>
-                  </div>
-                ))}
+            
+            return (
+              <div key={catKey} className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Library className="w-5 h-5 text-primary" />
+                  <h2 className="text-xl font-bold">{category.name}</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {groupedProjects[catKey].map((project: any) => (
+                    <Card key={project.id} className="border-none bg-card/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-all">
+                      <CardContent className="pt-6">
+                        <div className="space-y-4">
+                          <div>
+                            <h3 className="text-lg font-semibold">{project.name}</h3>
+                            <p className="text-muted-foreground mt-1">{project.description}</p>
+                          </div>
+                          
+                          <div className="flex items-center text-sm text-muted-foreground">
+                            <Calendar className="w-4 h-4 mr-2" />
+                            Due: {project.dueDate}
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <Link href={`/dashboard/projects/${project.id}`} className="flex-1">
+                              <Button className="w-full" variant="outline">
+                                <Eye className="w-4 h-4 mr-2" />
+                                View Tasks
+                              </Button>
+                            </Link>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              onClick={() => {
+                                if (window.confirm('Are you sure you want to delete this project?')) {
+                                  handleDeleteProject(project.id.toString());
+                                }
+                              }}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
               </div>
-            </div>
-          );
-        })
+            );
+          })}
+        </div>
       )}
     </div>
   );

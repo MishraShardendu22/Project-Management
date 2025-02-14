@@ -57,6 +57,12 @@ body {
         --sidebar-accent-foreground: 0 0% 100%;
         --sidebar-border: 210 20% 85%;
         --sidebar-ring: 180 80% 40%;
+
+        /* Destructive variant: bright orange-red by default */
+        --destructive: 10 100% 50%;
+        /* On hover, become brownish */
+        --destructive-hover: 25 60% 40%;
+        --destructive-foreground: 0 0% 100%;
     }
 
     .dark {
@@ -110,6 +116,11 @@ body {
         --sidebar-accent-foreground: 0 0% 100%;
         --sidebar-border: 240 20% 25%;
         --sidebar-ring: 250 60% 55%;
+
+        /* Destructive variant for dark mode */
+        --destructive: 10 100% 50%;
+        --destructive-hover: 25 60% 40%;
+        --destructive-foreground: 0 0% 100%;
     }
 }
 
@@ -120,5 +131,15 @@ body {
 
     body {
         @apply bg-background text-foreground;
+    }
+}
+
+@layer components {
+    .btn-destructive {
+        @apply bg-[hsl(var(--destructive))] text-[hsl(var(--destructive-foreground))] border-none;
+    }
+
+    .btn-destructive:hover {
+        @apply bg-[hsl(var(--destructive-hover))];
     }
 }
