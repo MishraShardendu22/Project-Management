@@ -131,7 +131,7 @@ export const useDeleteProject = () => {
 export const useFetchCategories = () => {
     const { data, error, isPending, isError, isFetching } = useQuery({
         queryKey: ["categories"],
-        queryFn: () => api.get("/categories").then(res => res.data),
+        queryFn: () => api.get("/categories").then(res => res.data.data),
     });
     return { data, error, isPending, isError, isFetching };
 };
