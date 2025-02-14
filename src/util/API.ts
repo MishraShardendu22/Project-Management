@@ -8,9 +8,10 @@ export const useFetchTasks = () => {
     const { data, error, isPending, isError, isFetching } = useQuery(
         { 
             queryKey: ["tasks"], 
-            queryFn: () => api.get("/tasks").then(res => res.data),
+            queryFn: () => api.get("/tasks").then(res => res.data.data),
         }
     );
+    console.log("The Data is: ",data)
     return { data, error, isPending, isError, isFetching };
 };
 
@@ -23,59 +24,107 @@ export const useCreateTask = () => {
     return { mutate, isPending, isError, error };
 };
 
-export const useUpdateTask = () => {
-    const queryClient = useQueryClient();
-    const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: ({ projectId, updates }: { projectId: string; updates: any }) =>
-            api.put(`/tasks/${projectId}`, updates).then(res => res.data),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
-    });
-    return { mutate, isPending, isError, error };
-};
-
 export const useDeleteTask = () => {
     const queryClient = useQueryClient();
+
     const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: (projectId: string) => api.delete(`/tasks?projectId=${projectId}`).then(res => res.data),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["tasks"] }),
+        mutationFn: async (taskId: string) => {
+            if (!taskId) throw new Error("Task ID is required");
+            return api.delete(`/tasks/${taskId}`).then(res => res.data);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        },
+        onError: (err) => {
+            console.error("Error deleting task:", err);
+        }
     });
-    return { mutate, isPending, isError, error };
+
+    const deleteTask = (taskId: string) => {
+        if (!taskId) {
+            console.warn("Task ID is missing!");
+            return;
+        }
+        mutate(taskId);
+    };
+
+    return { deleteTask, isPending, isError, error };
+};
+
+export const useUpdateTask = () => {
+    const queryClient = useQueryClient();
+
+    const { mutate, isPending, isError, error } = useMutation({
+        mutationFn: async ({ taskId, updates }: { taskId: string; updates: any }) => {
+            if (!taskId) throw new Error("Task ID is required");
+            return api.put(`/tasks/${taskId}`, updates).then(res => res.data);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["tasks"] });
+        },
+        onError: (err) => {
+            console.error("Error updating task:", err);
+        }
+    });
+
+    const updateTask = (taskId: string, updates: any) => {
+        if (!taskId) {
+            console.warn("Task ID is missing!");
+            return;
+        }
+        mutate({ taskId, updates });
+    };
+
+    return { updateTask, isPending, isError, error };
 };
 
 export const useFetchProjects = () => {
-    const { data, error, isPending, isError, isFetching } = useQuery({
+    return useQuery({
         queryKey: ["projects"],
-        queryFn: () => api.get("/projects").then(res => res.data),
+        queryFn: async () => {
+            const { data } = await api.get("/projects");
+            return data;
+        },
     });
-    return { data, error, isPending, isError, isFetching };
 };
 
 export const useCreateProject = () => {
     const queryClient = useQueryClient();
-    const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: (project: any) => api.post("/projects", project).then(res => res.data),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+    return useMutation({
+        mutationFn: async (project: any) => {
+            const { data } = await api.post("/projects", project);
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
+        },
     });
-    return { mutate, isPending, isError, error };
 };
 
 export const useUpdateProject = () => {
     const queryClient = useQueryClient();
-    const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: ({ projectId, updates }: { projectId: string; updates: any }) =>
-            api.put(`/projects/${projectId}`, updates).then(res => res.data),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+    return useMutation({
+        mutationFn: async ({ projectId, updates }: { projectId: string; updates: any }) => {
+            const { data } = await api.put(`/projects/${projectId}`, updates);
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
+        },
     });
-    return { mutate, isPending, isError, error };
 };
 
 export const useDeleteProject = () => {
     const queryClient = useQueryClient();
-    const { mutate, isPending, isError, error } = useMutation({
-        mutationFn: (projectId: string) => api.delete(`/projects?projectId=${projectId}`).then(res => res.data),
-        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["projects"] }),
+    return useMutation({
+        mutationFn: async (projectId: string) => {
+            const { data } = await api.delete(`/projects?projectId=${projectId}`);
+            return data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["projects"] });
+        },
     });
-    return { mutate, isPending, isError, error };
 };
 
 export const useFetchCategories = () => {
