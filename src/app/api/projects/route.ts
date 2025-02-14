@@ -22,12 +22,13 @@ export async function POST(req: NextRequest){
         console.log(session)
 
 
-        const { name, description, dueDate } = await req.json(); 
+        const { name, description, dueDate, categoryId } = await req.json(); 
         const project = {
             name: name,
             description: description,
             dueDate: dueDate,
             userId: user_Id,
+            categoryId: categoryId,
         }
 
         console.log(project);
