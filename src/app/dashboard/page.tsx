@@ -4,32 +4,19 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { 
-  useFetchProjects, 
-  useCreateProject 
-} from "@/util/API";
-import { 
-  useFetchCategories, 
-  useCreateCategory, 
-  useUpdateCategory, 
-  useDeleteCategory 
-} from "@/util/API";
+import { useFetchProjects, useCreateProject } from "@/util/API";
+import { useFetchCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from "@/util/API";
 
 export default function Dashboard() {
-  // --- Projects & Categories data ---
   const { data: projects, isFetching: projectsLoading } = useFetchProjects();
   const { data: categories, isFetching: categoriesLoading } = useFetchCategories();
   const { mutate: createProject } = useCreateProject();
-
-  // --- State for New Project ---
   const [newProject, setNewProject] = useState({
     name: "",
     description: "",
     dueDate: "",
-    categoryId: "", // optional; if blank, project will be Uncategorized
+    categoryId: "",
   });
-
-  // --- Categories Management States & Handlers ---
   const [newCategory, setNewCategory] = useState("");
   const { mutate: createCategory } = useCreateCategory();
   const { mutate: updateCategory } = useUpdateCategory();
@@ -43,7 +30,6 @@ export default function Dashboard() {
       alert("Category name is required.");
       return;
     }
-    // Replace "1" with the actual userId from your auth context if available.
     createCategory({ name: newCategory, userId: 1 });
     setNewCategory("");
   };
@@ -64,7 +50,6 @@ export default function Dashboard() {
     }
   };
 
-  // --- Group projects by category for display ---
   const groupedProjects = useMemo(() => {
     const groups: Record<string, any[]> = {};
     if (projects) {
@@ -77,14 +62,14 @@ export default function Dashboard() {
     return groups;
   }, [projects]);
 
-  // --- Create New Project Handler ---
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newProject.name) {
       alert("Project name is required.");
       return;
     }
-    createProject(newProject, {
+    const projectPayload = { ...newProject, categoryId: newProject.categoryId ? parseInt(newProject.categoryId) : null };
+    createProject(projectPayload, {
       onSuccess: () => {
         setNewProject({
           name: "",
@@ -99,16 +84,10 @@ export default function Dashboard() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
-
-      {/* === Categories Management Section === */}
       <div className="mb-8 border p-4 rounded">
         <h2 className="text-xl font-bold mb-2">Manage Categories</h2>
         <form onSubmit={handleCategoryCreate} className="flex gap-2 mb-4">
-          <Input
-            placeholder="New Category Name"
-            value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value)}
-          />
+          <Input placeholder="New Category Name" value={newCategory} onChange={(e) => setNewCategory(e.target.value)} />
           <Button type="submit">Add Category</Button>
         </form>
         {categoriesLoading ? (
@@ -119,15 +98,9 @@ export default function Dashboard() {
               <li key={cat.id} className="flex items-center gap-2">
                 {editingCategory === cat.id ? (
                   <>
-                    <Input
-                      value={editCategoryName}
-                      onChange={(e) => setEditCategoryName(e.target.value)}
-                    />
+                    <Input value={editCategoryName} onChange={(e) => setEditCategoryName(e.target.value)} />
                     <Button onClick={() => handleCategoryUpdate(cat)}>Save</Button>
-                    <Button
-                      onClick={() => setEditingCategory(null)}
-                      variant="destructive"
-                    >
+                    <Button onClick={() => setEditingCategory(null)} variant="destructive">
                       Cancel
                     </Button>
                   </>
@@ -143,10 +116,7 @@ export default function Dashboard() {
                     >
                       Edit
                     </Button>
-                    <Button
-                      onClick={() => handleCategoryDelete(cat.id)}
-                      variant="destructive"
-                    >
+                    <Button onClick={() => handleCategoryDelete(cat.id)} variant="destructive">
                       Delete
                     </Button>
                   </>
@@ -156,39 +126,13 @@ export default function Dashboard() {
           </ul>
         )}
       </div>
-
-      {/* === New Project Creation Section === */}
       <div className="mb-6 border p-4 rounded">
         <h2 className="text-xl font-semibold mb-2">Create New Project</h2>
         <form onSubmit={handleCreateProject} className="flex flex-col gap-2">
-          <Input
-            placeholder="Project Name"
-            value={newProject.name}
-            onChange={(e) =>
-              setNewProject({ ...newProject, name: e.target.value })
-            }
-          />
-          <Input
-            placeholder="Description"
-            value={newProject.description}
-            onChange={(e) =>
-              setNewProject({ ...newProject, description: e.target.value })
-            }
-          />
-          <Input
-            type="date"
-            value={newProject.dueDate}
-            onChange={(e) =>
-              setNewProject({ ...newProject, dueDate: e.target.value })
-            }
-          />
-          <select
-            className="border p-2"
-            value={newProject.categoryId}
-            onChange={(e) =>
-              setNewProject({ ...newProject, categoryId: e.target.value })
-            }
-          >
+          <Input placeholder="Project Name" value={newProject.name} onChange={(e) => setNewProject({ ...newProject, name: e.target.value })} />
+          <Input placeholder="Description" value={newProject.description} onChange={(e) => setNewProject({ ...newProject, description: e.target.value })} />
+          <Input type="date" value={newProject.dueDate} onChange={(e) => setNewProject({ ...newProject, dueDate: e.target.value })} />
+          <select className="border p-2" value={newProject.categoryId} onChange={(e) => setNewProject({ ...newProject, categoryId: e.target.value })}>
             <option value="">Select Category (optional)</option>
             {categories &&
               categories.map((cat: any) => (
@@ -200,34 +144,22 @@ export default function Dashboard() {
           <Button type="submit">Create Project</Button>
         </form>
       </div>
-
-      {/* === Display Projects Grouped by Category === */}
       {projectsLoading || categoriesLoading ? (
         <p>Loading projects...</p>
       ) : (
         Object.keys(groupedProjects).map((catKey) => {
-          // Determine category name:
-          const category =
-            catKey === "uncategorized"
-              ? { name: "Uncategorized" }
-              : categories.find(
-                  (cat: any) => cat.id.toString() === catKey.toString()
-                ) || { name: "Unknown Category" };
-
+          const category = catKey === "uncategorized"
+            ? { name: "Uncategorized" }
+            : categories.find((cat: any) => cat.id.toString() === catKey.toString()) || { name: "Unknown Category" };
           return (
             <div key={catKey} className="mb-8">
               <h2 className="text-xl font-bold mb-2">{category.name}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {groupedProjects[catKey].map((project: any) => (
-                  <div
-                    key={project.id}
-                    className="border p-4 rounded shadow hover:shadow-lg transition"
-                  >
+                  <div key={project.id} className="border p-4 rounded shadow hover:shadow-lg transition">
                     <h3 className="text-lg font-semibold">{project.name}</h3>
                     <p>{project.description}</p>
-                    <p className="text-sm text-gray-500">
-                      Due: {project.dueDate}
-                    </p>
+                    <p className="text-sm text-gray-500">Due: {project.dueDate}</p>
                     <Link href={`/dashboard/projects/${project.id}`}>
                       <Button className="mt-2">View Tasks</Button>
                     </Link>
