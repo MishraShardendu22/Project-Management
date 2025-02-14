@@ -1,5 +1,6 @@
+import { authOptions } from "../auth/[...nextauth]/options";
 import { sendResponse } from "@/util/Response";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
 import { projectsTable } from "@/db/schema";
 import { NextRequest } from "next/server";
 import { db } from "@/db";
@@ -14,11 +15,13 @@ export async function GET(){
     }
 }
 
-
 export async function POST(req: NextRequest){
     try{
-        const session = await getSession();
+        const session = await getServerSession(authOptions);
         const user_Id = Number(session?.user?.id);
+        console.log(session)
+
+
         const { name, description, dueDate } = await req.json(); 
         const project = {
             name: name,
@@ -27,6 +30,7 @@ export async function POST(req: NextRequest){
             userId: user_Id,
         }
 
+        console.log(project);
         if(!user_Id || !name || !description || !dueDate){
             return sendResponse(400, "Bad Request");
         }

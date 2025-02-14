@@ -83,7 +83,7 @@ export const useFetchProjects = () => {
         queryKey: ["projects"],
         queryFn: async () => {
             const { data } = await api.get("/projects");
-            return data;
+            return data.data
         },
     });
 };
@@ -118,7 +118,8 @@ export const useDeleteProject = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (projectId: string) => {
-            const { data } = await api.delete(`/projects?projectId=${projectId}`);
+            console.log("Project ID: ", projectId);
+            const { data } = await api.delete(`/projects/${projectId}`);
             return data;
         },
         onSuccess: () => {

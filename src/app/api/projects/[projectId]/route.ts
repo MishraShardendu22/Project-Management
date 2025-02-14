@@ -6,7 +6,17 @@ import { db } from "@/db";
 
 export async function PUT(req: NextRequest) {
     try {
-        const projectId = req.nextUrl.searchParams.get("projectId");
+        console.log("CP: 1");
+        let projectId = req.nextUrl.searchParams.get("projectId");
+
+        if (!projectId) {
+            const urlParts = req.nextUrl.pathname.split("/");
+            const newprojectId = urlParts[urlParts.length - 1];
+            console.log("Extracted Task ID:", newprojectId);
+            projectId = newprojectId;
+        }
+
+        console.log("CP: 1.5");
         const { name, description, dueDate } = await req.json();
 
         if (!projectId || !name || !description || !dueDate) {
@@ -23,10 +33,17 @@ export async function PUT(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
     try {
-        const projectId = req.nextUrl.searchParams.get("projectId");
+        console.log("CP: 1");
+        let projectId = req.nextUrl.searchParams.get("projectId");
+
         if (!projectId) {
-            return sendResponse(400, "Bad Request");
+            const urlParts = req.nextUrl.pathname.split("/");
+            const newprojectId = urlParts[urlParts.length - 1];
+            console.log("Extracted Task ID:", newprojectId);
+            projectId = newprojectId;
         }
+
+        console.log("CP: 1.5");
 
         await db.delete(projectsTable).where(eq(projectsTable.id, Number(projectId)));
         return sendResponse(200, "Successfully Deleted Project");
