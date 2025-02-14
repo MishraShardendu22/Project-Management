@@ -4,12 +4,14 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useFetchProjects, useCreateProject } from "@/util/API";
+import { useFetchProjects, useCreateProject, useDeleteProject } from "@/util/API";
 import { useFetchCategories, useCreateCategory, useUpdateCategory, useDeleteCategory } from "@/util/API";
 
 export default function Dashboard() {
-  const { data: projects, isFetching: projectsLoading } = useFetchProjects();
   const { data: categories, isFetching: categoriesLoading } = useFetchCategories();
+  const [editingCategory, setEditingCategory] = useState<number | null>(null);
+  const { data: projects, isFetching: projectsLoading } = useFetchProjects();
+  const [editCategoryName, setEditCategoryName] = useState("");
   const { mutate: createProject } = useCreateProject();
   const [newProject, setNewProject] = useState({
     name: "",
@@ -17,13 +19,13 @@ export default function Dashboard() {
     dueDate: "",
     categoryId: "",
   });
-  const [newCategory, setNewCategory] = useState("");
   const { mutate: createCategory } = useCreateCategory();
   const { mutate: updateCategory } = useUpdateCategory();
   const { mutate: deleteCategory } = useDeleteCategory();
-  const [editingCategory, setEditingCategory] = useState<number | null>(null);
-  const [editCategoryName, setEditCategoryName] = useState("");
+  const {mutate: deleteProject } = useDeleteProject();
 
+  const [newCategory, setNewCategory] = useState("");
+  
   const handleCategoryCreate = (e: React.FormEvent) => {
     e.preventDefault();
     if (newCategory.trim() === "") {
@@ -80,6 +82,14 @@ export default function Dashboard() {
       },
     });
   };
+
+  const handleDeleteProject = (projectId: string) => {
+    try{
+      deleteProject(projectId);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="p-6">
@@ -163,6 +173,16 @@ export default function Dashboard() {
                     <Link href={`/dashboard/projects/${project.id}`}>
                       <Button className="mt-2">View Tasks</Button>
                     </Link>
+                    <Button
+                      onClick={() => {
+                        if (window.confirm("Are you sure you want to delete this project?")) {
+                            handleDeleteProject(project.id.toString());
+                        }
+                      }}
+                      variant="destructive"
+                    >
+                      Delete
+                    </Button>
                   </div>
                 ))}
               </div>
