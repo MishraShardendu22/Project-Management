@@ -177,7 +177,7 @@ export default function Dashboard() {
             value={newProject.description} 
             onChange={(e) => setNewProject({ ...newProject, description: e.target.value })} 
           />
-          <Input 
+          <Input
             type="date" 
             value={newProject.dueDate} 
             onChange={(e) => setNewProject({ ...newProject, dueDate: e.target.value })} 
