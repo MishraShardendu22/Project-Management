@@ -1,17 +1,11 @@
-import { signOut } from "next-auth/react";
+import { signOut } from 'next-auth/react';
 
 const Navbar = () => {
-  const HandleSignOut = () => {
-    signOut();
-  };
+ const HandleSignOut = () => {
+  signOut();
+ };
 
-  return (
-    <div
-      onClick={HandleSignOut}
-    >
-      Sign-Out
-    </div>
-  )
-}
+ return <div onClick={HandleSignOut}>Sign-Out</div>;
+};
 
-export default Navbar
+export default Navbar;

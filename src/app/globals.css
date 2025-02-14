@@ -43,43 +43,43 @@ body {
   --sidebar-ring: 217.2 91.2% 59.8%;
  }
  .dark {
-    --background: 260 15% 10%;      /* Dark purple background */
-    --foreground: 260 20% 98%;      /* Light purple-tinted text */
-    --card: 260 15% 12%;            /* Slightly lighter purple for cards */
-    --card-foreground: 260 20% 98%;
-    --popover: 260 15% 12%;
-    --popover-foreground: 260 20% 98%;
-    --primary: 230 60% 60%;         /* Indigo primary */
-    --primary-foreground: 260 20% 98%;
-    --secondary: 260 20% 20%;       /* Darker purple secondary */
-    --secondary-foreground: 260 20% 98%;
-    --muted: 260 15% 25%;           /* Muted purple */
-    --muted-foreground: 260 15% 75%;
-    --accent: 230 50% 45%;          /* Indigo accent */
-    --accent-foreground: 260 20% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 260 15% 25%;          /* Purple border */
-    --input: 260 15% 25%;
-    --ring: 230 60% 60%;            /* Indigo ring */
-    
-    /* Chart colors with purple/indigo theme */
-    --chart-1: 230 70% 60%;         /* Indigo */
-    --chart-2: 260 60% 60%;         /* Purple */
-    --chart-3: 245 65% 55%;         /* Blue-purple */
-    --chart-4: 275 70% 60%;         /* Violet */
-    --chart-5: 290 65% 55%;         /* Light purple */
-    
-    /* Sidebar with matching theme */
-    --sidebar-background: 260 20% 12%;
-    --sidebar-foreground: 260 15% 95%;
-    --sidebar-primary: 230 60% 60%;  /* Indigo primary */
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 20% 20%;
-    --sidebar-accent-foreground: 260 15% 95%;
-    --sidebar-border: 260 15% 25%;
-    --sidebar-ring: 230 60% 60%;
-  }
+  --background: 260 15% 10%; /* Dark purple background */
+  --foreground: 260 20% 98%; /* Light purple-tinted text */
+  --card: 260 15% 12%; /* Slightly lighter purple for cards */
+  --card-foreground: 260 20% 98%;
+  --popover: 260 15% 12%;
+  --popover-foreground: 260 20% 98%;
+  --primary: 230 60% 60%; /* Indigo primary */
+  --primary-foreground: 260 20% 98%;
+  --secondary: 260 20% 20%; /* Darker purple secondary */
+  --secondary-foreground: 260 20% 98%;
+  --muted: 260 15% 25%; /* Muted purple */
+  --muted-foreground: 260 15% 75%;
+  --accent: 230 50% 45%; /* Indigo accent */
+  --accent-foreground: 260 20% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 260 15% 25%; /* Purple border */
+  --input: 260 15% 25%;
+  --ring: 230 60% 60%; /* Indigo ring */
+
+  /* Chart colors with purple/indigo theme */
+  --chart-1: 230 70% 60%; /* Indigo */
+  --chart-2: 260 60% 60%; /* Purple */
+  --chart-3: 245 65% 55%; /* Blue-purple */
+  --chart-4: 275 70% 60%; /* Violet */
+  --chart-5: 290 65% 55%; /* Light purple */
+
+  /* Sidebar with matching theme */
+  --sidebar-background: 260 20% 12%;
+  --sidebar-foreground: 260 15% 95%;
+  --sidebar-primary: 230 60% 60%; /* Indigo primary */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 260 20% 20%;
+  --sidebar-accent-foreground: 260 15% 95%;
+  --sidebar-border: 260 15% 25%;
+  --sidebar-ring: 230 60% 60%;
+ }
 }
 
 @layer base {

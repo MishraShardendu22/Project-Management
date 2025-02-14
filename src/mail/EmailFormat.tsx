@@ -1,10 +1,10 @@
 interface EmailTemplateProps {
-  to_name: string;
-  otp: number;
+ to_name: string;
+ otp: number;
 }
 
 export const EmailTemplate = ({ to_name, otp }: EmailTemplateProps) => {
-  return `
+ return `
     <div style="font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg, #e0f7fa, #b2ebf2); padding: 50px 20px;">
       <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 12px 40px rgba(79, 70, 229, 0.1);">
         <!-- Greeting Section -->

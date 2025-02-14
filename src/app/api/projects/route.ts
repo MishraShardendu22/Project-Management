@@ -1,49 +1,47 @@
-import { authOptions } from "../auth/[...nextauth]/options";
-import { sendResponse } from "@/util/Response";
-import { getServerSession } from "next-auth";
-import { projectsTable } from "@/db/schema";
-import { NextRequest } from "next/server";
-import { db } from "@/db";
+import { authOptions } from '../auth/[...nextauth]/options';
+import { sendResponse } from '@/util/Response';
+import { getServerSession } from 'next-auth';
+import { projectsTable } from '@/db/schema';
+import { NextRequest } from 'next/server';
+import { db } from '@/db';
 
-export async function GET(){
-    try{
-        const projects = await db.select().from(projectsTable);
-        return sendResponse(200, "Successfully Fetched Data",projects);
-    }catch(error){
-        console.error(error);
-        return sendResponse(500, "Internal Server Error");
-    }
+export async function GET() {
+ try {
+  const projects = await db.select().from(projectsTable);
+  return sendResponse(200, 'Successfully Fetched Data', projects);
+ } catch (error) {
+  console.error(error);
+  return sendResponse(500, 'Internal Server Error');
+ }
 }
 
-export async function POST(req: NextRequest){
-    try{
-        const session = await getServerSession(authOptions);
-        const user_Id = Number(session?.user?.id);
-        console.log(session)
+export async function POST(req: NextRequest) {
+ try {
+  const session = await getServerSession(authOptions);
+  const user_Id = Number(session?.user?.id);
+  console.log(session);
 
+  const { name, description, dueDate, categoryId } = await req.json();
+  const project = {
+   name: name,
+   description: description,
+   dueDate: dueDate,
+   userId: user_Id,
+   categoryId: categoryId,
+  };
 
-        const { name, description, dueDate, categoryId } = await req.json(); 
-        const project = {
-            name: name,
-            description: description,
-            dueDate: dueDate,
-            userId: user_Id,
-            categoryId: categoryId,
-        }
+  console.log(project);
+  if (!user_Id || !name || !description || !dueDate) {
+   return sendResponse(400, 'Bad Request');
+  }
 
-        console.log(project);
-        if(!user_Id || !name || !description || !dueDate){
-            return sendResponse(400, "Bad Request");
-        }
-
-        await db.insert(projectsTable).values(project);
-        return sendResponse(200, "Successfully Created Project", project);
-    }catch(error){
-        console.error(error);
-        return sendResponse(500, "Internal Server Error");
-    }
+  await db.insert(projectsTable).values(project);
+  return sendResponse(200, 'Successfully Created Project', project);
+ } catch (error) {
+  console.error(error);
+  return sendResponse(500, 'Internal Server Error');
+ }
 }
-
 
 // const projectsTable = pgTable("projects", {
 //     dueDate: date("dueDate"),
