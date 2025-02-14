@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     default: 'ProjectZen - Made By Shardendu Mishra',
   },
   description:
-    'ProjectZen | Sometimes Roasting, Sometimes Toasting - Made With Love By Shardendu Mishra Using Next.js 15',
+    'ProjectZen |A Productivity Application - Made With Love By Shardendu Mishra Using Next.js 15',
 };
 
 export default function RootLayout({
