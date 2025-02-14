@@ -1,11 +1,15 @@
 "use client";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+
+  const serviceID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+  const templateID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+  const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -16,8 +20,7 @@ const Contact = () => {
     setLoading(true);
 
     // Validate environment variables
-    if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || !process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || !process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
-      console.error("Missing EmailJS environment variables.");
+    if (!serviceID || !templateID || !publicKey) {
       toast.error("Service is not properly configured. Please try again later.");
       setLoading(false);
       return;
@@ -25,8 +28,8 @@ const Contact = () => {
 
     try {
       await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        serviceID,
+        templateID,
         {
           from_name: form.name,
           to_name: "Shardendu Mishra",
@@ -34,14 +37,14 @@ const Contact = () => {
           to_email: "shardendumishra01@gmail.com",
           message: form.message,
         },
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+        publicKey
       );
 
       toast.success("Thank you for your message 😃");
       setForm({ name: "", email: "", message: "" });
     } catch (error) {
-      console.error("EmailJS Error:", error);
       toast.error("I didn't receive your message 😢");
+      console.error("EmailJS Error:", error);
     } finally {
       setLoading(false);
     }
@@ -49,11 +52,11 @@ const Contact = () => {
 
   return (
     <section className="c-space my-20 mb-20" id="contact">
-
+      {/* Comment: Added Toaster for react-hot-toast notifications */}
+      <Toaster />
       <div className="relative min-h-screen flex items-center justify-center flex-col">
-
         <div className="contact-container">
-          <h3 className="head-text my-10">Let`s talk</h3>
+          <h3 className="head-text my-10">Let’s talk</h3>
           <p className="text-lg text-white-600 mt-3">
             Whether you’re looking to build a new website, improve your existing platform, or bring a unique project to life, I’m here to help.
           </p>
@@ -100,7 +103,6 @@ const Contact = () => {
 
             <button className="field-btn" type="submit" disabled={loading}>
               {loading ? "Sending..." : "Send Message"}
-              <img src="/assets/arrow-up.png" alt="arrow-up" className="field-btn_arrow" />
             </button>
           </form>
         </div>

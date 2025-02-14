@@ -1,5 +1,7 @@
-import React from 'react';
-import type { Metadata } from 'next';
+import React from "react";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Landing Page - ProjectZen",
@@ -8,9 +10,12 @@ export const metadata: Metadata = {
 };
 
 const LandingPage = () => {
+  const handleGetStarted = () => {
+    toast.success("Redirecting to Sign Up...");
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
-
       {/* Hero Section */}
       <section className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white py-20">
         <div className="container mx-auto px-4 text-center">
@@ -18,12 +23,14 @@ const LandingPage = () => {
           <p className="mb-8 text-lg">
             Organize, prioritize, and achieve more with ProjectZen – your personal task management system.
           </p>
-          <a
-            href="/signup"
-            className="bg-white text-blue-500 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
-          >
-            Get Started
-          </a>
+          <Link href="/sign-up">
+            <button
+              onClick={handleGetStarted}
+              className="bg-white text-blue-500 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+            >
+              Get Started
+            </button>
+          </Link>
         </div>
       </section>
 
@@ -61,15 +68,16 @@ const LandingPage = () => {
           <p className="mb-8 text-lg">
             Join ProjectZen today and streamline your productivity.
           </p>
-          <a
-            href="/signup"
-            className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
-          >
-            Sign Up Now
-          </a>
+          <Link href="/sign-up">
+            <button
+              onClick={handleGetStarted}
+              className="bg-white text-blue-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+            >
+              Sign Up Now
+            </button>
+          </Link>
         </div>
       </section>
-
     </div>
   );
 };
