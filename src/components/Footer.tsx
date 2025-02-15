@@ -48,7 +48,7 @@ const Footer = () => {
             asChild
           >
             <a
-              href="mailto:contact@example.com"
+              href="mailto:mishrashardendu22@gmail.com"
               aria-label="Email Contact"
             >
               <Mail className="h-5 w-5" />
