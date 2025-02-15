@@ -114,3 +114,7 @@ Project Zen exposes a suite of RESTful APIs via Next.js API routes, enabling:
 - **GitHub Profile:** [github.com/MishraShardendu22](https://github.com/MishraShardendu22)
 - **Project Repository:** [Project-Management](https://github.com/MishraShardendu22/Project-Management)
 - **Live Demo:** [Project Zen Live](https://project-management-internhsip-shardendu-mishra.vercel.app/)
+
+
+# Improvements
+![alt text](image.png)
