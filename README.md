@@ -27,7 +27,7 @@ Project Zen is meticulously crafted to empower users with an efficient and intui
 - **Tailwind CSS:** Provides a modern, utility-first approach to styling, ensuring responsive design out of the box.
 - **Zustand:** Manages global state efficiently (e.g., theme toggling).
 - **React Query (TanStack Query):** Streamlines data fetching, caching, and state synchronization.
-- **Radix UI:** Supplies accessible, unstyled UI components to build a custom design system.
+- **ShadCN UI:** Supplies accessible, unstyled UI components to build a custom design system.
 
 ### Backend
 
