@@ -5,19 +5,25 @@ import { eq } from 'drizzle-orm';
 import { db } from '@/db';
 
 export async function PUT(
- req: NextRequest,
- { params }: { params: { categoryId: string } }
-) {
+ req: NextRequest) {
  try {
-  const { categoryId } = params;
+  let categorId = req.nextUrl.searchParams.get('categorId');
+
+  if (!categorId) {
+   const urlParts = req.nextUrl.pathname.split('/');
+   const extractedTaskId = urlParts[urlParts.length - 1];
+   console.log('Extracted Task ID:', extractedTaskId);
+   categorId = extractedTaskId;
+  }
+
   const { name } = await req.json();
-  if (!categoryId || !name) {
+  if (!categorId || !name) {
    return sendResponse(400, 'Invalid request');
   }
   const [updatedCategory] = await db
    .update(categoriesTable)
    .set({ name })
-   .where(eq(categoriesTable.id, Number(categoryId)))
+   .where(eq(categoriesTable.id, Number(categorId)))
    .returning();
   return sendResponse(200, 'Category updated successfully', updatedCategory);
  } catch (error) {
@@ -26,20 +32,24 @@ export async function PUT(
  }
 }
 
-export async function DELETE(
- req: NextRequest,
- { params }: { params: { categoryId: string } }
-) {
+export async function DELETE(req: NextRequest) {
  try {
-  const { categoryId } = params;
+  let categorId = req.nextUrl.searchParams.get('categorId');
 
-  if (!categoryId) {
+  if (!categorId) {
+   const urlParts = req.nextUrl.pathname.split('/');
+   const extractedTaskId = urlParts[urlParts.length - 1];
+   console.log('Extracted Task ID:', extractedTaskId);
+   categorId = extractedTaskId;
+  }
+
+  if (!categorId) {
    return sendResponse(400, 'Invalid request');
   }
 
   await db
    .delete(categoriesTable)
-   .where(eq(categoriesTable.id, Number(categoryId)));
+   .where(eq(categoriesTable.id, Number(categorId)));
   return sendResponse(200, 'Category deleted successfully');
  } catch (error) {
   console.error(error);
