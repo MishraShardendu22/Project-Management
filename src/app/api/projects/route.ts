@@ -4,10 +4,16 @@ import { getServerSession } from 'next-auth';
 import { projectsTable } from '@/db/schema';
 import { NextRequest } from 'next/server';
 import { db } from '@/db';
+import { eq } from 'drizzle-orm';
 
 export async function GET() {
  try {
-  const projects = await db.select().from(projectsTable);
+  const session = await getServerSession(authOptions);
+  const userId = Number(session?.user?.id);
+  if (!userId) {
+    return sendResponse(401, 'Unauthorized');
+  }
+  const projects = await db.select().from(projectsTable).where(eq(projectsTable.userId, userId));
   return sendResponse(200, 'Successfully Fetched Data', projects);
  } catch (error) {
   console.error(error);
