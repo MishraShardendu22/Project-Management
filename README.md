@@ -45,7 +45,7 @@ Project Zen is meticulously crafted to empower users with an efficient and intui
 - **bcryptjs:** Handles password hashing for secure authentication.
 - **React Hook Form:** Simplifies form management and validation.
 - **Day.js & date-fns:** Offer powerful utilities for date manipulation.
-- **Various Radix UI Components:** Enhance the UI with a range of accessible and customizable components.
+- **Various ShadCN UI Components:** Enhance the UI with a range of accessible and customizable components.
 
 ---
 
