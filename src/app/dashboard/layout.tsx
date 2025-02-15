@@ -5,9 +5,7 @@ const queryClient = new QueryClient();
 
 const layout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
  return (
-  <QueryClientProvider client={queryClient}>
-    {children}
-  </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
  );
 };
 

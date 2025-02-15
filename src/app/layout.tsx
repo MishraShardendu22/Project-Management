@@ -17,27 +17,27 @@ import './globals.css';
 // });
 
 export const metadata: Metadata = {
-  title: {
-    template: '%s | ProjectZen',
-    default: 'ProjectZen - Made By Shardendu Mishra',
-  },
-  description:
-    'ProjectZen |A Productivity Application - Made With Love By Shardendu Mishra Using Next.js 15',
+ title: {
+  template: '%s | ProjectZen',
+  default: 'ProjectZen - Made By Shardendu Mishra',
+ },
+ description:
+  'ProjectZen |A Productivity Application - Made With Love By Shardendu Mishra Using Next.js 15',
 };
 
 export default function RootLayout({
-  children,
+ children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <html lang="en">
-      <body>
-        <AuthProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </AuthProvider>
-        <Toaster position="top-right" reverseOrder={false} />
-      </body>
-    </html>
-  );
+ return (
+  <html lang="en">
+   <body>
+    <AuthProvider>
+     <Navbar />
+     {children}
+     <Footer />
+    </AuthProvider>
+    <Toaster position="top-right" reverseOrder={false} />
+   </body>
+  </html>
+ );
 }

@@ -1,111 +1,116 @@
-## 5-Chan Live Demo
+# Project Zen
 
-### Check out the live demo of the project [5-Chan](https://5-chan-shardendu-mishra.vercel.app)
+**Project Zen** is a cutting-edge personal task management system designed to help you organize your daily tasks and projects effortlessly. Leveraging a comprehensive suite of modern web technologies, Project Zen provides a smooth full-stack experience with a strong focus on performance, scalability, and usability.
 
-### Check out a video of the project [YouTube Video](https://youtu.be/FIjMpPrWSkM)
+---
 
-A platform where users can share and receive the nicest and the meanest thing about them in a safe and harmless manner. Non-logged-in users can write about others, while logged-in users can write after a verification process using OTP (One-Time Password) during signup.
+## Overview
 
-## Tech - Features
+Project Zen is meticulously crafted to empower users with an efficient and intuitive way to manage tasks and projects. Key features include:
 
-- **Non-Logged-In Users:** Can provide feedback for other users.
-- **Logged-In Users:** Can receive feedback after completing OTP verification during signup.
-- **OTP Verification:** Ensures that only verified users can receive feedback.
-- **Username Management:** If a logged-in user is not verified, their username can be taken away.
+- **Global State & Data Fetching:** Harness the power of Zustand for theme management and global state handling, paired with React Query (TanStack Query) for robust asynchronous data fetching and caching.
+- **Task Management:** Seamlessly create, read, update, and delete tasks. Each task supports priority levels, due dates, and categorization under projects for better organization.
+- **Responsive Dashboard:** Enjoy a dynamic interface with sidebar navigation, interactive forms, and a calendar view for scheduling and tracking deadlines.
+- **Database & ORM:** Utilize PostgreSQL as the core database with Drizzle ORM to manage schema, optimize queries, and ensure type-safe interactions.
+- **Project Management:** Organize tasks within projects featuring detailed views, statistical insights, and deadline tracking.
+- **User Authentication:** Implement secure sign up, login, and logout functionalities with protected routes, ensuring data integrity and privacy.
+- **Modern Styling:** Experience a clean, responsive design powered by Tailwind CSS, making the UI both attractive and mobile-friendly.
 
-## Non-Tech Features
-
-- **Server-Side Rendering**: Leveraged Next.js best practices for server-side rendering, optimizing performance and SEO by serving static files and enhancing crawler indexing.
-- **Best Coding Practices**: The project follows a well-structured codebase with clear separation between models and schemas, ensuring organization and eliminating clutter.
-- **Search Engine Optimization (SEO)**: Enhanced SEO by customizing metadata, including page titles and descriptions, to improve search engine visibility and ranking.
-- **Prettier Integration**: Prettier has been integrated to enforce consistent code formatting, ensuring readability and uniformity throughout the project.
-- **Linting**: A robust linting configuration was implemented to maintain code quality, catch errors early, and enforce best practices across the project.
-- **Clean Code**: All redundant and unnecessary code has been removed, ensuring a clean, efficient, and straightforward codebase.
-- **Sample Files**: A sample file (TemporaryPrepPages) was created to provide a practice resource and facilitate learning.
+---
 
 ## Tech Stack
 
-The platform is built using the following technologies:
+### Frontend
 
-- **Frontend:**
-  - Next.js
-  - React
-  - Tailwind CSS
-  - Embla Carousel (for showcasing feedback)
-- **Backend:**
-  - Node.js
-  - npm (package installer)
-  - NodeMailer (for OTP-based email verification)
-  - Gemini API (for integration with LLM)
-  - ZOD (as a Schema Validation Library)
-- **Testing:**
-  - Postman (for API testing)
+- **Next.js 15 (App Router):** For server-side rendering, optimized routing, and a seamless developer experience.
+- **TypeScript:** Ensures robust type safety and enhanced code quality.
+- **Tailwind CSS:** Provides a modern, utility-first approach to styling, ensuring responsive design out of the box.
+- **Zustand:** Manages global state efficiently (e.g., theme toggling).
+- **React Query (TanStack Query):** Streamlines data fetching, caching, and state synchronization.
+- **Radix UI:** Supplies accessible, unstyled UI components to build a custom design system.
 
-## Setup Instructions
+### Backend
 
-### Prerequisites
+- **Next.js API Routes:** Build RESTful APIs that integrate seamlessly with the frontend.
+- **PostgreSQL:** Serves as the primary relational database.
+- **Drizzle ORM:** Facilitates schema management and query optimization while maintaining type safety.
+- **Neon:** Cloud-hosted PostgreSQL for reliable, scalable database hosting.
 
-Before you begin, make sure you have the following installed:
+### Additional Libraries & Tools
 
-- [Node.js](https://nodejs.org/) (v14 or higher)
-- [npm](https://www.npmjs.com/)
-- [Postman](https://www.postman.com/) (for API testing)
+- **Axios:** For efficient HTTP request handling.
+- **Zod:** Provides schema validation to ensure robust data integrity.
+- **dotenv:** Manages environment variables securely.
+- **Nodemailer:** Enables email functionalities for user notifications and verifications.
+- **bcryptjs:** Handles password hashing for secure authentication.
+- **React Hook Form:** Simplifies form management and validation.
+- **Day.js & date-fns:** Offer powerful utilities for date manipulation.
+- **Various Radix UI Components:** Enhance the UI with a range of accessible and customizable components.
 
-### Steps to Run the Application Locally
+---
 
-1. Clone the repository to your local machine:
+## Installation & Setup
 
-   ```bash
-   git clone https://github.com/your-username/5-chan.git
-   ```
-
-2. Navigate to the project directory:
+1. **Clone the repository:**
 
    ```bash
-   cd 5-chan
+   git clone https://github.com/MishraShardendu22/Project-Management.git
+   cd Project-Management
    ```
 
-3. Install the required dependencies:
+2. **Install dependencies:**
 
    ```bash
    npm install
    ```
 
-4. Set up environment variables:
+3. **Configure Environment Variables:**
 
-   - Create a `.env` file in the root directory and configure the following environment variables:
-     - `NEXT_PUBLIC_API_URL` - API endpoint URL
-     - `NEXT_PUBLIC_GEMINI_API_KEY` - Gemini API key for LLM integration
-     - `NODEMAILER_USER` - Your NodeMailer email account
-     - `NODEMAILER_PASS` - Password for NodeMailer account
+   Create a `.env` file at the root of the project and add the required environment variables for database connection, authentication, email services, and more.
 
-5. Start the development server:
+4. **Run the development server:**
 
    ```bash
    npm run dev
    ```
 
-   This will start the app on `http://localhost:3000`.
+   The application will be available at [http://localhost:3000](http://localhost:3000).
 
-6. Open the app in your browser and test the functionality.
+5. **Build for production:**
 
-## How It Works
+   ```bash
+   npm run build
+   npm start
+   ```
 
-- **Feedback Mechanism:**
+---
 
-  - Users can provide feedback on other users' profiles, even if they are not logged in.
-  - Logged-in users can view feedback only after confirming their identity via OTP.
+## Database Schema
 
-- **OTP Verification Process:**
+Project Zen uses PostgreSQL with the following core tables:
 
-  - Upon signup, users will receive an OTP email.
-  - If the user fails to verify their email, their username will be temporarily removed until verified.
+- **Tasks:** Manages individual tasks with priority levels, due dates, descriptions, and completion statuses.
+- **Categories:** Organizes tasks into meaningful groups for better tracking.
+- **Projects:** Houses project-specific details including deadlines, descriptions, and associated tasks.
+- **Users:** Handles user profiles, authentication details, and verification processes.
 
-- **LLM Integration:**
-  - The Gemini API integrates a Language Learning Model to provide an interactive and personalized feedback experience.
+_(For a detailed view of the schema definitions, refer to the codebase.)_
 
-## Contributing
+---
 
-We welcome contributions! If you want to contribute to this project, please fork the repository and create a pull request with a detailed description of the changes. Make sure to follow the project's coding standards.
+## API Endpoints
 
-Thanks for checking out 5-Chan. We hope you enjoy using it!
+Project Zen exposes a suite of RESTful APIs via Next.js API routes, enabling:
+
+- **Categories:** Create, update, and delete task categories.
+- **Tasks:** Perform full CRUD operations on tasks with filtering and categorization capabilities.
+- **Authentication:** Handle user registration, login, logout, and email verification.
+- **Projects:** Manage project lifecycle with complete CRUD support.
+
+---
+
+## Connect With Me
+
+- **GitHub Profile:** [github.com/MishraShardendu22](https://github.com/MishraShardendu22)
+- **Project Repository:** [Project-Management](https://github.com/MishraShardendu22/Project-Management)
+- **Live Demo:** [Project Zen Live](https://project-management-internhsip-shardendu-mishra.vercel.app/)
