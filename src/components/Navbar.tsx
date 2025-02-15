@@ -35,10 +35,10 @@ const Navbar = () => {
   };
 
   const NavItems = ({ className = "", onClick = () => {} }) => (
-    <div className={`flex ${className}`}>
+    <div className={`flex flex-wrap gap-2 ${className}`}>
       <Button
         variant={pathname === "/" ? "default" : "ghost"}
-        className="w-full justify-start"
+        className="w-full md:w-auto justify-start"
         onClick={() => {
           router.push("/");
           onClick();
@@ -48,7 +48,7 @@ const Navbar = () => {
       </Button>
       <Button
         variant={pathname === "/about" ? "default" : "ghost"}
-        className="w-full justify-start"
+        className="w-full md:w-auto justify-start"
         onClick={() => {
           router.push("/about");
           onClick();
@@ -58,7 +58,7 @@ const Navbar = () => {
       </Button>
       <Button
         variant={pathname === "/contact" ? "default" : "ghost"}
-        className="w-full justify-start"
+        className="w-full md:w-auto justify-start"
       >
         <Link href="/contact">Contact</Link>
       </Button>
@@ -67,8 +67,9 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-6">
+      <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+        {/* Logo & Navigation */}
+        <div className="flex items-center gap-4 md:gap-6 w-full max-w-full">
           <Image
             src="/project.png"
             alt="logo"
@@ -82,7 +83,8 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Theme & Auth Buttons */}
+        <div className="flex items-center gap-3 md:gap-4">
           <ThemeToggle />
           {session ? (
             <Button
@@ -104,6 +106,7 @@ const Navbar = () => {
             )
           )}
 
+          {/* Mobile Menu */}
           <Sheet>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
@@ -111,7 +114,7 @@ const Navbar = () => {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetContent side="right" className="w-[85vw] max-w-xs sm:max-w-sm">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>

@@ -132,12 +132,12 @@ export default function SignUpForm() {
           <div className="space-y-2">
             <div className="flex items-center justify-center gap-2">
               <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                Join 5 Chan
+                Join ProjectZen
               </h1>
               <Sparkles className="h-6 w-6 text-accent animate-pulse" />
             </div>
             <p className="text-muted-foreground text-lg">
-              Begin your anonymous journey
+              Begin your Productivity journey
             </p>
           </div>
         </CardHeader>
