@@ -37,7 +37,7 @@ const Navbar = () => {
  const NavItems = ({ className = '', onClick = () => {} }) => (
   <div className={`flex flex-wrap gap-2 ${className}`}>
    <Button
-    variant={pathname === '/' ? 'default' : 'ghost'}
+    variant={pathname === '/dashboard' || pathname === '/' ? 'default' : 'ghost'}
     className="w-full md:w-auto justify-start"
     onClick={() => {
      router.push('/');
