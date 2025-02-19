@@ -6,9 +6,10 @@
 
 - **GitHub Profile:** [github.com/MishraShardendu22](https://github.com/MishraShardendu22)
 - **Project Repository:** [Project-Management](https://github.com/MishraShardendu22/Project-Management)
+- **Live Video:** [Project Zen Video](https://www.loom.com/share/17111c76016545f2b255316369e9defb?sid=67bd8ecb-f003-48e7-9db9-6ba5351e1437)
 - **Live Demo:** [Project Zen Live](https://project-management-internhsip-shardendu-mishra.vercel.app/)
 - **Figma:** [Figma](https://www.figma.com/design/swxxon1kMZHbooRvOHkNn1/Project-Management-Figma?node-id=0-1&t=GphA3GHXofcY9OUA-1)
-- **Live Video:** [Project Zen Video](https://www.loom.com/share/17111c76016545f2b255316369e9defb?sid=67bd8ecb-f003-48e7-9db9-6ba5351e1437)
+
 
 ## Overview
 
