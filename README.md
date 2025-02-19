@@ -2,7 +2,13 @@
 
 **Project Zen** is a cutting-edge personal task management system designed to help you organize your daily tasks and projects effortlessly. Leveraging a comprehensive suite of modern web technologies, Project Zen provides a smooth full-stack experience with a strong focus on performance, scalability, and usability.
 
----
+## View My Projects and Connect with Me
+
+- **GitHub Profile:** [github.com/MishraShardendu22](https://github.com/MishraShardendu22)
+- **Project Repository:** [Project-Management](https://github.com/MishraShardendu22/Project-Management)
+- **Live Demo:** [Project Zen Live](https://project-management-internhsip-shardendu-mishra.vercel.app/)
+- **Figma:** [Figma](https://www.figma.com/design/swxxon1kMZHbooRvOHkNn1/Project-Management-Figma?node-id=0-1&t=GphA3GHXofcY9OUA-1)
+- **Live Video:** [Project Zen Video](https://www.loom.com/share/17111c76016545f2b255316369e9defb?sid=67bd8ecb-f003-48e7-9db9-6ba5351e1437)
 
 ## Overview
 
@@ -106,15 +112,6 @@ Project Zen exposes a suite of RESTful APIs via Next.js API routes, enabling:
 - **Tasks:** Perform full CRUD operations on tasks with filtering and categorization capabilities.
 - **Authentication:** Handle user registration, login, logout, and email verification.
 - **Projects:** Manage project lifecycle with complete CRUD support.
-
----
-
-## Connect With Me
-
-- **GitHub Profile:** [github.com/MishraShardendu22](https://github.com/MishraShardendu22)
-- **Project Repository:** [Project-Management](https://github.com/MishraShardendu22/Project-Management)
-- **Live Demo:** [Project Zen Live](https://project-management-internhsip-shardendu-mishra.vercel.app/)
-- **Live Video:** [Project Zen Video](https://www.loom.com/share/17111c76016545f2b255316369e9defb?sid=67bd8ecb-f003-48e7-9db9-6ba5351e1437)
 
 ---
 
